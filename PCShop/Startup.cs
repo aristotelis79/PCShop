@@ -32,10 +32,11 @@ namespace PCShop
             #region DI
 
             services.AddScoped<IDbContext, PcShopContext>()
-                    .AddScoped<IRepository<Product,int>, EfRepository<Product,int>>()
-                    .AddScoped<IRepository<ProductComponent,int>, EfRepository<ProductComponent,int>>()
-                    .AddScoped<IRepository<ProductAttribute,int>, EfRepository<ProductAttribute,int>>()
-                    .AddScoped<ICatalogService, CatalogService>();
+                .AddScoped<IRepository<Product, int>, EfRepository<Product, int>>()
+                .AddScoped<IRepository<ProductComponent, int>, EfRepository<ProductComponent, int>>()
+                .AddScoped<IRepository<ProductAttribute, int>, EfRepository<ProductAttribute, int>>()
+                .AddScoped<ICatalogService, CatalogService>()
+                .AddMemoryCache();
 
             #endregion
 
@@ -52,12 +53,10 @@ namespace PCShop
             #region MVC
 
             services.AddControllersWithViews()
-
 #if (DEBUG)
             .AddRazorRuntimeCompilation();
 #endif
             #endregion
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

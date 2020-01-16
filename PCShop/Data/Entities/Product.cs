@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace PCShop.Data.Entities
+﻿namespace PCShop.Data.Entities
 {
     /// <summary>
     /// Represents Product

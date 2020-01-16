@@ -9,14 +9,21 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PCShop.Data;
 using PCShop.Models;
+using PCShop.Models.Mapping;
 using PCShop.Services;
 
 namespace PCShop.Controllers
 {
     public class CatalogController : Controller
     {
+        #region properties
+
         private readonly ILogger<CatalogController> _logger;
         private readonly ICatalogService _catalogService;
+
+        #endregion
+
+        #region ctor
 
         public CatalogController(ILogger<CatalogController> logger, ICatalogService catalogService)
         {
@@ -24,49 +31,53 @@ namespace PCShop.Controllers
             _catalogService = catalogService ?? throw new ArgumentNullException(nameof(catalogService));
         }
 
+        #endregion
+
+
+        #region Methods
+
         public async Task<IActionResult> Index(CancellationToken token = default)
         {
             try
             {
                 var products = await _catalogService.GetAllProductsAsync(token).ConfigureAwait(false);
+                return View(products.ToViewModels());
             }
             catch (Exception e)
             {
                 _logger.LogError("Can't get products", e);
                 return RedirectToAction(nameof(Error));
             }
-            return View();
         }
 
-        public async Task<IActionResult>  Product(int id, CancellationToken token = default)
+        public async Task<IActionResult> Product(int id, CancellationToken token = default)
         {
             try
             {
-                //var _dbContext = new PcShopContext("Server=.;Database=PcShop;Trusted_Connection=True;MultipleActiveResultSets=true");
-                //var d =  _dbContext.Product.Include(x=>x.ProductComponent).FirstOrDefault(x => x.Id == id);
-
-                //_dbContext.Entry(d.ProductComponent).Collection(x => x.ChildrenProductComponents).Load();
-
                 var product = await _catalogService.GetProductById(id, token).ConfigureAwait(false);
+                return View(product.ToViewModel());
+
             }
             catch (Exception e)
             {
                 _logger.LogError($"Can't get product with id {id}", e);
                 return RedirectToAction(nameof(Error));
             }
-
-            return NoContent();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public async Task<IActionResult> Order(OrderViewModel model, CancellationToken token = default)
         {
-            return View();
+            return View(model);
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        #endregion
     }
 }

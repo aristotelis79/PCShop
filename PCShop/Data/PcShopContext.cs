@@ -9,19 +9,6 @@ namespace PCShop.Data
     /// </summary>
     public class PcShopContext : DbContext, IDbContext
     {
-        public DbSet<ProductComponent> ProductComponent { get; set; }
-        public DbSet<Product> Product { get; set; }
-        public readonly string _connectionString;
-
-        public PcShopContext(string connectionString) : base()
-        {
-            _connectionString = connectionString;
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer(_connectionString);
-        }
         #region ctor
 
         ///<inheritdoc />

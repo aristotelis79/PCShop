@@ -23,11 +23,11 @@ namespace PCShop.Data.Repository
         IQueryable<TEntity> Table { get; }
 
         /// <summary>
-        /// Get entity by identifier
+        /// Insert entity
         /// </summary>
-        /// <param name="id">Identifier</param>
-        /// <param name="token">Cancellation token for method</param>
-        /// <returns>Entity</returns>
-        Task<TEntity> GetByIdAsync(T id, CancellationToken token = default);
+        /// <param name="entity">Entity</param>
+        /// <param name="token">Cancellation token of action</param>
+        /// <returns>Number of effective rows</returns>
+        Task<int> InsertAsync(TEntity entity, CancellationToken token = default);
     }
 }

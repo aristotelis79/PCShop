@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -48,20 +49,23 @@ namespace PCShop.Data.Repository
 
         #region Methods
 
-        /// <summary>
-        /// Get entity by identifier
-        /// </summary>
-        /// <param name="id">Identifier</param>
-        /// <param name="token">Cancellation token for method</param>
-        /// <returns>Entity</returns>
-        public virtual async Task<TEntity> GetByIdAsync(T id, CancellationToken token = default)
+        /// <inheritdoc cref="entity"/>
+        public virtual async Task<int> InsertAsync(TEntity entity, CancellationToken token = default)
         {
-            return await Entities.FindAsync(new object[]{id},token)
-                .ConfigureAwait(false);
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            try
+            {
+                await Entities.AddAsync(entity,token).ConfigureAwait(false);
+                return await _context.SaveChangesAsync(token).ConfigureAwait(false);
+            }
+            catch (DbUpdateException exception)
+            {
+                throw new Exception(GetFullErrorTextAndRollbackEntityChanges(exception), exception);
+            }
         }
 
-
-        
         /// <summary>
         /// Rollback of entity changes and return full error message
         /// </summary>

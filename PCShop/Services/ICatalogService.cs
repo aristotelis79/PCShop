@@ -14,7 +14,7 @@ namespace PCShop.Services
         /// Get all products
         /// </summary>
         /// <returns>Products</returns>
-        Task<IList<Product>> GetAllProductsAsync(CancellationToken token = default);
+        Task<List<Product>> GetAllProductsAsync(CancellationToken token = default);
 
         /// <summary>
         /// Get product by identifier
