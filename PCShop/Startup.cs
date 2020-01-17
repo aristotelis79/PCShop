@@ -14,6 +14,8 @@ using PCShop.Data;
 using PCShop.Data.Entities;
 using PCShop.Data.Repository;
 using PCShop.Services;
+using FluentValidation.AspNetCore;
+using PCShop.Validations;
 
 namespace PCShop
 {
@@ -53,11 +55,17 @@ namespace PCShop
 
             #region MVC
 
-            services.AddControllersWithViews()
+            services.AddMvc()
+                    .AddFluentValidation(fv =>
+                    {
+                        fv.RegisterValidatorsFromAssemblyContaining<ProductAttributeModelValidation>();
+                        fv.ImplicitlyValidateChildProperties = true;
+                    })
 #if (DEBUG)
             .AddRazorRuntimeCompilation();
 #endif
             #endregion
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

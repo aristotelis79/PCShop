@@ -70,7 +70,7 @@ namespace PCShop.Controllers
 
 
         [HttpPost]
-        public IActionResult Order(OrderViewModel model, CancellationToken token = default)
+        public IActionResult Order(OrderViewModel model)
         {
             if (!ModelState.IsValid) return View("Product",  model);
 
