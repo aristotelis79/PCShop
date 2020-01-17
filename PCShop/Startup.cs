@@ -89,15 +89,19 @@ namespace PCShop
             });
 
             #region Db
-
+            //just for automate seed values
             var serviceScopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
             using (var serviceScope = serviceScopeFactory.CreateScope())
             {
                 var dbContext = serviceScope.ServiceProvider.GetService<PcShopContext>();
                 dbContext.Database.EnsureCreated();
 
-                const string filepath = "../seed_data.sql";
-                dbContext.Database.ExecuteSqlRaw(File.Exists(filepath) ? File.ReadAllText(filepath) : string.Empty);
+                var result = dbContext.Set<ProductComponent>().Find(new object[]{1});
+                if(result != null) return;
+                
+                var filepath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "seed_data.sql");
+                var sql = File.Exists(filepath) ? File.ReadAllText(filepath) : string.Empty;
+                dbContext.Database.ExecuteSqlRaw(sql);
             }
 
             #endregion

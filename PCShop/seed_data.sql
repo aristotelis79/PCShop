@@ -1,14 +1,14 @@
 USE [PcShop]
-GO
+
 INSERT INTO [dbo].[ProductComponent]
            ([Name]
            ,[ParentProductComponentId])
      VALUES
-         ('Workstation',null),
+           ('Workstation',null),
            ('Personal Computer',1),
            ('Personal Computer Tower',2),
            ('Personal Computer Screen',2)
-GO
+
 
 INSERT INTO [dbo].[Product]
            ([Name]
@@ -22,7 +22,7 @@ INSERT INTO [dbo].[Product]
            ('Personal Computer Tower 2',3),
            ('Personal Computer Screen 1',4),
            ('Personal Computer Screen 2',4)
-GO
+
 
 
 INSERT INTO [dbo].[ProductAttribute]
@@ -34,7 +34,7 @@ INSERT INTO [dbo].[ProductAttribute]
            ('Screen','Inches'),
            ('Memory','GB'),
            ('CPU','GHz')
-GO
+
 
 
 INSERT INTO [dbo].[ProductComponentAttributeMap]
@@ -42,9 +42,9 @@ INSERT INTO [dbo].[ProductComponentAttributeMap]
            ,[ProductAttributeId])
      VALUES
            (1,1),
-       (2,2),
-       (2,3),
-       (3,4),
-       (3,5),
-       (4,3)
-GO
+		   (2,2),
+		   (2,3),
+		   (3,4),
+		   (3,5),
+		   (4,3)
+

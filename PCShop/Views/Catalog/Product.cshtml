@@ -1,8 +1,43 @@
-﻿@model ProductViewModel
+﻿@model OrderViewModel
 
 @{
     ViewData["Title"] = "Product";
 }
 
-<h1>Product</h1>
+<h1>@Model.Product.Name</h1>
 
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 col-sm-12 product-list-item no-margin">
+            <p>@Model.Product.Name</p>
+        </div>
+        <div class="col-md-9 col-sm-12">
+            <form asp-controller="Catalog" asp-action="Order" class="form-inline">
+                <div class="form-row">
+                    @for (var a = 0; a < Model.Product.Attributes.Count; a++)
+                    {
+                        <input asp-for="Product.Id" hidden value="@Model.Product.Id"/>
+                        <input asp-for="Product.Name" hidden value="@Model.Product.Name"/>
+                        <input asp-for="@Model.Product.Attributes[a].Id" hidden value="@Model.Product.Attributes[a].Id"/>
+                        <input asp-for="@Model.Product.Attributes[a].Name" hidden value="@Model.Product.Attributes[a].Name"/>
+                        <input asp-for="@Model.Product.Attributes[a].Unit" hidden value="@Model.Product.Attributes[a].Unit"/>
+                        <div class="col-12 form-group margin-v-10">
+                            <label class="min-width-100">@Model.Product.Attributes[a].Name</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text min-width-75" id="inputGroupPrepend">@Model.Product.Attributes[a].Unit</span>
+                            </div>
+                            <input type="number" asp-for="@Model.Product.Attributes[a].Value" class="form-control" />
+                            <span asp-validation-for="@Model.Product.Attributes[a].Value" class="text-danger"></span>
+                        </div>
+                    }
+                </div>
+                <div class="row w-75 margin-v-10">
+                    <div class="offset-3 col-12 h-100">
+                        <button type="submit" class="btn btn-lg btn-success">Buy</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

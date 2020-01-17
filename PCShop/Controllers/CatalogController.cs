@@ -55,7 +55,10 @@ namespace PCShop.Controllers
             try
             {
                 var product = await _catalogService.GetProductById(id, token).ConfigureAwait(false);
-                return View(product.ToViewModel());
+                
+                var model = new OrderViewModel{Product = product.ToViewModel()};
+                
+                return View(model);
 
             }
             catch (Exception e)
@@ -65,9 +68,12 @@ namespace PCShop.Controllers
             }
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> Order(OrderViewModel model, CancellationToken token = default)
+        public IActionResult Order(OrderViewModel model, CancellationToken token = default)
         {
+            if (!ModelState.IsValid) return View("Product",  model);
+
             return View(model);
         }
 
