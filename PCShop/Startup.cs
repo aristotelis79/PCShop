@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -86,6 +87,20 @@ namespace PCShop
                     name: "default",
                     pattern: "{controller=Catalog}/{action=Index}/{id?}");
             });
+
+            #region Db
+
+            var serviceScopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+            using (var serviceScope = serviceScopeFactory.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetService<PcShopContext>();
+                dbContext.Database.EnsureCreated();
+
+                const string filepath = "../seed_data.sql";
+                dbContext.Database.ExecuteSqlRaw(File.Exists(filepath) ? File.ReadAllText(filepath) : string.Empty);
+            }
+
+            #endregion
         }
     }
 }
