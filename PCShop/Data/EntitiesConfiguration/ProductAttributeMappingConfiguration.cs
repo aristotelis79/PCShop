@@ -11,8 +11,7 @@ namespace PCShop.Data.EntitiesConfiguration
         ///<inheritdoc cref="ProductComponentAttributeMap"/>
         public void Configure(EntityTypeBuilder<ProductComponentAttributeMap> builder)
         {
-            builder.ToTable(nameof(ProductComponentAttributeMap))
-                .HasKey(k => k.Id);
+            builder.HasKey(k => k.Id);
 
             builder.HasOne(d => d.ProductAttribute)
                 .WithMany(d => d.ProductAttributesMap)

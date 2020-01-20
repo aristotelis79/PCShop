@@ -10,8 +10,7 @@ namespace PCShop.Data.EntitiesConfiguration
         ///<inheritdoc cref="ProductComponent"/>
         public void Configure(EntityTypeBuilder<ProductComponent> builder)
         {
-            builder.ToTable(nameof(ProductComponent))
-                .HasKey(k => k.Id);
+            builder.HasKey(k => k.Id);
 
             builder.Property(p => p.Name)
                 .IsRequired()

@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,11 +40,8 @@ namespace PCShop
 
             #region Db
 
-            services.AddDbContext<PcShopContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            }, ServiceLifetime.Scoped);
-
+            services.AddDbContext<PcShopContext>(options => 
+                options.UseInMemoryDatabase(Configuration.GetValue<string>("DatabaseName")));
 
             #endregion
 
@@ -97,20 +89,8 @@ namespace PCShop
             });
 
             #region Db
-            //just for automate seed values
-            var serviceScopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
-            using (var serviceScope = serviceScopeFactory.CreateScope())
-            {
-                var dbContext = serviceScope.ServiceProvider.GetService<PcShopContext>();
-                dbContext.Database.EnsureCreated();
-
-                var result = dbContext.Set<ProductComponent>().Find(new object[]{1});
-                if(result != null) return;
-                
-                var filepath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "seed_data.sql");
-                var sql = File.Exists(filepath) ? File.ReadAllText(filepath) : string.Empty;
-                dbContext.Database.ExecuteSqlRaw(sql);
-            }
+            
+            app.SeedMemoryDb();
 
             #endregion
         }

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace PCShop.Models
+﻿namespace PCShop.Models
 {
     /// <summary>
     /// Represents product attribute view model

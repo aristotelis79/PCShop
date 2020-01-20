@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using PCShop.Data.Entities;
 
 namespace PCShop.Models
 {

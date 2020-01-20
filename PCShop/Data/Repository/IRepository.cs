@@ -21,13 +21,5 @@ namespace PCShop.Data.Repository
         /// Gets a table
         /// </summary>
         IQueryable<TEntity> Table { get; }
-
-        /// <summary>
-        /// Insert entity
-        /// </summary>
-        /// <param name="entity">Entity</param>
-        /// <param name="token">Cancellation token of action</param>
-        /// <returns>Number of effective rows</returns>
-        Task<int> InsertAsync(TEntity entity, CancellationToken token = default);
     }
 }

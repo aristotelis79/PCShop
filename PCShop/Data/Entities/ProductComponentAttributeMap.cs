@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-namespace PCShop.Data.Entities
+﻿namespace PCShop.Data.Entities
 {
     /// <summary>
     /// Represents the product component attribute mapping 
