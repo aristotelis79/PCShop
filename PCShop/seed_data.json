@@ -1,0 +1,97 @@
+{
+  "Product": [{
+    "Id": 1,
+    "Name": "Workstation 1",
+    "ProductComponentId": 1
+  }, {
+    "Id": 2,
+    "Name": "Workstation 2",
+    "ProductComponentId": 1
+  }, {
+    "Id": 3,
+    "Name": "Personal Computer 1",
+    "ProductComponentId": 2
+  }, {
+    "Id": 4,
+    "Name": "Personal Computer 2",
+    "ProductComponentId": 2
+  }, {
+    "Id": 5,
+    "Name": "Personal Computer Tower 1",
+    "ProductComponentId": 3
+  }, {
+    "Id": 6,
+    "Name": "Personal Computer Tower 2",
+    "ProductComponentId": 3
+  }, {
+    "Id": 7,
+    "Name": "Personal Computer Screen 1",
+    "ProductComponentId": 4
+  }, {
+    "Id": 8,
+    "Name": "Personal Computer Screen 2",
+    "ProductComponentId": 4
+  }],
+  "ProductAttribute": [{
+    "Id": 1,
+    "Name": "OS",
+    "Unit": "OS"
+  }, {
+    "Id": 2,
+    "Name": "Hard Drive",
+    "Unit": "GB"
+  }, {
+    "Id": 3,
+    "Name": "Screen",
+    "Unit": "Inches"
+  }, {
+    "Id": 4,
+    "Name": "Memory",
+    "Unit": "GB"
+  }, {
+    "Id": 5,
+    "Name": "CPU",
+    "Unit": "GHz"
+  }],
+  "ProductComponent": [{
+    "Id": 1,
+    "Name": "Workstation"
+  }, {
+    "Id": 2,
+    "Name": "Personal Computer",
+    "ParentProductComponentId": 1
+  }, {
+    "Id": 3,
+    "Name": "Personal Computer Tower",
+    "ParentProductComponentId": 2
+  }, {
+    "Id": 4,
+    "Name": "Personal Computer Screen",
+    "ParentProductComponentId": 2
+  }],
+  "ProductComponentAttributeMap": [{
+    "Id": 1,
+    "ProductComponentId": 1,
+    "ProductAttributeId": 1
+  }, {
+    "Id": 2,
+    "ProductComponentId": 2,
+    "ProductAttributeId": 2
+  }, {
+    "Id": 3,
+    "ProductComponentId": 2,
+    "ProductAttributeId": 3
+  }, {
+    "Id": 4,
+    "ProductComponentId": 3,
+    "ProductAttributeId": 4
+  }, {
+    "Id": 5,
+    "ProductComponentId": 3,
+    "ProductAttributeId": 5
+  }, {
+    "Id": 6,
+    "ProductComponentId": 4,
+    "ProductAttributeId": 3
+  }]
+}

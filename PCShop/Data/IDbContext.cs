@@ -17,12 +17,5 @@ namespace PCShop.Data
         /// <typeparam name="T">Struct of Id of Base entity</typeparam>
         /// <returns>A set for the given entity type</returns>
         DbSet<TEntity> Set<TEntity,T>() where TEntity : BaseEntity<T> where T :struct;
-
-        /// <summary>
-        /// Saves all changes made in this context to the database
-        /// </summary>
-        /// <returns>The number of state entries written to the database</returns>
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-
     }
 }

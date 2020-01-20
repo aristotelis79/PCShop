@@ -1,13 +1,23 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using PCShop.Data;
 using PCShop.Data.Entities;
 
 namespace PCShop
 {
+    /// <summary>
+    /// Helper Class for Seed Db 
+    /// </summary>
     public static class MemoryDbInit
     {
+        /// <summary>
+        /// Seed db object with sample data from json file
+        /// </summary>
+        /// <param name="app">IApplicationBuilder</param>
         public static void SeedMemoryDb(this IApplicationBuilder app)
         {
             var serviceScopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
@@ -21,43 +31,20 @@ namespace PCShop
                 {
                     return;
                 }
-
-                product.AddRange(
-                    new Product
-                    {
-                        Id = 1,
-                        Name = "Workstation 1",
-                        ProductComponentId = 1
-                    });
-
                 var productComponent = dbContext.Set<ProductComponent, int>();
-
-                productComponent.AddRange(new ProductComponent
-                {
-                    Id = 1,
-                    Name = "Workstation",
-                    ParentProductComponentId = null
-                });
-
-
                 var productAttribute = dbContext.Set<ProductAttribute, int>();
-
-                productAttribute.AddRange(new ProductAttribute
-                {
-                    Id = 1,
-                    Name = "OS",
-                    Unit = "OS"
-                });
-
                 var productComponentAttributeMap = dbContext.Set<ProductComponentAttributeMap, int>();
 
-                productComponentAttributeMap.AddRange(new ProductComponentAttributeMap
-                {
-                    Id = 1,
-                    ProductAttributeId = 1,
-                    ProductComponentId = 1
-                });
+                var jObjs = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(@"seed_data.json"));
 
+                product.AddRange(jObjs[nameof(Product)].ToObject<Product[]>());
+
+                productComponent.AddRange(jObjs[nameof(ProductComponent)].ToObject<ProductComponent[]>());
+
+                productAttribute.AddRange(jObjs[nameof(ProductAttribute)].ToObject<ProductAttribute[]>());
+
+                productComponentAttributeMap.AddRange(jObjs[nameof(ProductComponentAttributeMap)].ToObject<ProductComponentAttributeMap[]>());
+                
                 dbContext.SaveChanges();
             }
         }
