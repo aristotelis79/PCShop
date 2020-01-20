@@ -61,20 +61,21 @@ namespace PCShop.Services
         /// <summary>
         /// Get children product components of a product by product identifier
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Identifier of product component</param>
         /// <returns>Collection of ProductComponent</returns>
         private List<ProductComponent> GetChildrenProductComponentsByProductComponentId(int id)
         {
-            if (!_cache.TryGetValue("product_components", out var productComponents))
+            //get all product components from cache
+            if (!_cache.TryGetValue("product_components", out var allProductComponents))
             {
-                productComponents = _productComponentRepository.Table.Include(x => x.ChildrenProductComponents)
+                allProductComponents = _productComponentRepository.Table.Include(x => x.ChildrenProductComponents)
                                                                         .ThenInclude(x=>x.ProductAttributesMap)
                                                                         .ThenInclude(x=>x.ProductAttribute).ToList();
 
-                _cache.Set("product_components", productComponents, TimeSpan.FromMinutes(10));
+                _cache.Set("product_components", allProductComponents, TimeSpan.FromMinutes(10));
             }
 
-            return ((List<ProductComponent>) productComponents).FirstOrDefault(x => x.Id == id)?.ChildrenProductComponents.ToList();
+            return ((List<ProductComponent>) allProductComponents).FirstOrDefault(x => x.Id == id)?.ChildrenProductComponents.ToList();
         }
 
         #endregion

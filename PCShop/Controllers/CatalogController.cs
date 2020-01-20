@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using PCShop.Models;
 using PCShop.Models.Mapping;
@@ -10,6 +12,9 @@ using PCShop.Services;
 
 namespace PCShop.Controllers
 {
+    /// <summary>
+    /// Handle requests with products and orders
+    /// </summary>
     public class CatalogController : Controller
     {
         #region properties
@@ -51,8 +56,8 @@ namespace PCShop.Controllers
             try
             {
                 var product = await _catalogService.GetProductById(id, token).ConfigureAwait(false);
-                
-                var model = new OrderViewModel{Product = product.ToViewModel()};
+
+                var model = new OrderViewModel{ Product = product.ToViewModel()};
                 
                 return View(model);
 

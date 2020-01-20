@@ -17,13 +17,22 @@
                 <div class="form-row">
                     @for (var a = 0; a < Model.Product.Attributes.Count; a++)
                     {
-                        <div class="col-12 form-group margin-v-10" data-product-id="@Model.Product.Attributes[a].Id">
-                            <label class="min-width-100">@Model.Product.Attributes[a].Name</label>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text min-width-75" id="inputGroupPrepend">@Model.Product.Attributes[a].Unit</span>
-                            </div>
-                            <input type="number" asp-for="@Model.Product.Attributes[a].Value" class="form-control" disabled />
+                    <div class="col-12 form-group margin-v-10" data-product-id="@Model.Product.Attributes[a].Id">
+                        <label class="min-width-100">@Model.Product.Attributes[a].Name</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text min-width-75" id="inputGroupPrepend">@Model.Product.Attributes[a].Unit</span>
                         </div>
+
+                        @if (Model.Product.Attributes[a].Unit == "OS")
+                        {
+
+                            <input type="text"  class="form-control" disabled value="@($"{((Os) Model.Product.Attributes[a].Value)}")" />
+                        }
+                        else
+                        {
+                            <input type="number" asp-for="@Model.Product.Attributes[a].Value" class="form-control" disabled />
+                        }
+                    </div>
                     }
                 </div>
             </div>

@@ -1,4 +1,4 @@
-﻿@model OrderViewModel
+﻿@model PCShop.Models.OrderViewModel
 
 @{
     ViewData["Title"] = "Product";
@@ -27,7 +27,14 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text min-width-75" id="inputGroupPrepend">@Model.Product.Attributes[a].Unit</span>
                             </div>
-                            <input type="number" asp-for="@Model.Product.Attributes[a].Value" class="form-control" />
+                            @if (Model.Product.Attributes[a].Unit == "OS")
+                            {
+                                <select asp-for="@Model.Product.Attributes[a].Value" asp-items='Html.GetEnumSelectList<Os>()' class="form-control"></select>
+                            }
+                            else
+                            {
+                                <input type="number" asp-for="@Model.Product.Attributes[a].Value" class="form-control" />
+                            }
                             <span asp-validation-for="@Model.Product.Attributes[a].Value" class="text-danger"></span>
                         </div>
                     }

@@ -3,6 +3,9 @@ using PCShop.Models;
 
 namespace PCShop.Validations
 {
+    /// <summary>
+    /// Validation rules for ProductAttributeViewModel
+    /// </summary>
     public class ProductAttributeModelValidation : AbstractValidator<ProductAttributeViewModel>
     {
         public ProductAttributeModelValidation()

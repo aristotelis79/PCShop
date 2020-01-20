@@ -23,6 +23,6 @@
         /// <summary>
         /// Get or set the product attribute view model value 
         /// </summary>
-        public int Value { get; set; }
+        public int Value { get; set; } = 1;
     }
 }

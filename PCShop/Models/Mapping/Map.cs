@@ -22,9 +22,9 @@ namespace PCShop.Models.Mapping
                 Name = entity.Name
             };
 
-            var productAttributes = GetsProductAttributesAndChildrenComponentProductAttributes(entity.ProductComponent, new List<ProductAttribute>());
+            var allProductAttributes = GetsProductAttributesAndChildrenProductAttributes(entity.ProductComponent, new List<ProductAttribute>());
 
-            foreach (var p in productAttributes)
+            foreach (var p in allProductAttributes)
             {
                 model.Attributes.Add(new ProductAttributeViewModel
                 {
@@ -41,43 +41,43 @@ namespace PCShop.Models.Mapping
         /// Mapping product entities to list of products view models
         /// </summary>
         /// <param name="entities">List of Products</param>
-        /// <returns>ProductViewModel</returns>
+        /// <returns>List of ProductViewModel</returns>
         public static List<ProductViewModel> ToViewModels(this List<Product> entities)
         {
             return entities.Select(e => e.ToViewModel()).ToList();
         }
 
         /// <summary>
-        /// 
+        /// Get all products attributes and children products attribute
         /// </summary>
-        /// <param name="productComponent">ProductComponent</param>
-        /// <param name="productAttributes"></param>
-        /// <returns></returns>
-        private static List<ProductAttribute> GetsProductAttributesAndChildrenComponentProductAttributes(ProductComponent productComponent, List<ProductAttribute> productAttributes)
+        /// <param name="productComponent">Product component</param>
+        /// <param name="productAttributes">List of product attributes</param>
+        /// <returns>List of product attribute</returns>
+        private static List<ProductAttribute> GetsProductAttributesAndChildrenProductAttributes(ProductComponent productComponent, List<ProductAttribute> productAttributes)
         {
             if (productComponent == null) return new List<ProductAttribute>();
 
             //Add parents product attributes to list
             productAttributes.AddRange(productComponent?.ProductAttributesMap.Select(s=>s.ProductAttribute).ToList());
 
-            if (productComponent?.ChildrenProductComponents != null)
+            if (productComponent.ChildrenProductComponents == null) return productAttributes.Distinct().ToList();
+            
+            foreach (var childrenProductComponent in productComponent.ChildrenProductComponents)
             {
-                foreach (var childrenProductComponent in productComponent?.ChildrenProductComponents)
-                {
-                    // Get products children product attributes
-                    var childrenProductAttributes = childrenProductComponent.ProductAttributesMap.Select(s => s.ProductAttribute).ToList();
-                    
-                    //add only new to products attribute  list
-                    productAttributes.AddRange(childrenProductAttributes.Where(x => productAttributes.All(y => x.Id != y.Id)));
+                // Get products children product attributes
+                var childrenProductAttributes = childrenProductComponent?.ProductAttributesMap.Select(s => s.ProductAttribute).ToList();
+                
+                //add only new to products attribute  list
+                productAttributes.AddRange(childrenProductAttributes?.Where(x => productAttributes.All(y => x.Id != y.Id)));
 
-                    if (childrenProductComponent?.ChildrenProductComponents != null &&
-                        childrenProductComponent.ChildrenProductComponents.Any())
-                    {
-                        GetsProductAttributesAndChildrenComponentProductAttributes(childrenProductComponent, productAttributes);
-                    }
+                if (childrenProductComponent?.ChildrenProductComponents != null &&
+                    childrenProductComponent.ChildrenProductComponents.Any())
+                {
+                    //recursive call for children product attribute
+                    GetsProductAttributesAndChildrenProductAttributes(childrenProductComponent, productAttributes);
                 }
             }
-
+            
             return productAttributes.Distinct().ToList();
         }
     }
