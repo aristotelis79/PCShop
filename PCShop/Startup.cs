@@ -45,6 +45,7 @@ namespace PCShop
 
             #endregion
 
+
             #region MVC
 
             services.AddMvc()
@@ -52,9 +53,9 @@ namespace PCShop
                     {
                         fv.RegisterValidatorsFromAssemblyContaining<ProductAttributeModelValidation>();
                         fv.ImplicitlyValidateChildProperties = true;
-                    })
+                    });
 #if (DEBUG)
-            .AddRazorRuntimeCompilation();
+            services.AddRazorRuntimeCompilation();
 #endif
             #endregion
 
